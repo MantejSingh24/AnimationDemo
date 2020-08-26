@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Svg, {Image, Circle, ClipPath} from 'react-native-svg';
 import Animated, {Easing} from 'react-native-reanimated';
 import {TapGestureHandler, State} from 'react-native-gesture-handler';
@@ -115,7 +122,7 @@ export default class Login extends Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: '#FF99CC',
           justifyContent: 'flex-end',
         }}>
         <Animated.View
@@ -128,7 +135,7 @@ export default class Login extends Component {
               <Circle r={height + 50} cx={width / 2}></Circle>
             </ClipPath>
             <Image
-              href={require('../asserts/bg.jpg')}
+              href={require('../asserts/bgg.jpg')}
               height={height + 50}
               width={width}
               preserveAspectRatio="xMidYMid slice"
@@ -163,6 +170,30 @@ export default class Login extends Component {
               SIGN IN WITH FACEBOOK
             </Text>
           </Animated.View>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('newLayout')}>
+            <Animated.View
+              style={{
+                marginHorizontal: 20,
+                borderRadius: 35,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginVertical: 5,
+
+                opacity: this.buttonOpacity,
+                transform: [{translateY: this.buttonY}],
+              }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: 'white',
+                }}>
+                To next layout
+              </Text>
+            </Animated.View>
+          </TouchableOpacity>
+
           <Animated.View
             style={{
               zIndex: this.textInputzIndex,
@@ -192,7 +223,13 @@ export default class Login extends Component {
               placeholder="Password"
               placeholderTextColor="black"
               style={styles.textinput}></TextInput>
-            <Animated.View style={styles.button}>
+            <Animated.View
+              style={{
+                ...styles.button,
+                borderColor: '#734b6d',
+                borderWidth: 2,
+                marginTop: 15,
+              }}>
               <Text style={{fontSize: 20, fontWeight: 'bold'}}>SIGN IN</Text>
             </Animated.View>
           </Animated.View>
@@ -209,7 +246,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#CCFFFF',
     height: 70,
     marginHorizontal: 20,
     borderRadius: 35,
@@ -228,6 +265,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginVertical: 5,
     borderColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'white',
   },
   closeButton: {
     height: 40,
