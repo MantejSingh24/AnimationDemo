@@ -15,7 +15,9 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
+import {useMutation} from '@apollo/react-hooks';
+import AsyncStorage from '@react-native-community/async-storage';
+import {CREATE_USER} from '../graphql/Queries';
 const SignUpScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     username: '',
@@ -25,6 +27,23 @@ const SignUpScreen = ({navigation}) => {
     secureTextEntry: true,
     confirm_secureTextEntry: true,
   });
+  const [Users, {Data}] = useMutation(CREATE_USER, {
+    onCompleted: (Data) => {
+      _saveEmail();
+      console.log(Data);
+      navigation.replace('SignInScreen');
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const _saveEmail = async () => {
+    try {
+      await AsyncStorage.setItem('username', data.username);
+      await AsyncStorage.setItem('password', data.password);
+    } catch (error) {
+      // Error saveing data
+    }
+  };
 
   const textInputChange = (val) => {
     if (val.length !== 0) {
@@ -161,7 +180,16 @@ const SignUpScreen = ({navigation}) => {
           </Text>
         </View>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => {
+              Users({
+                variables: {
+                  username: data.username,
+                  password: data.password,
+                },
+              });
+            }}>
             <LinearGradient
               colors={['#42275a', '#734b6d']}
               style={styles.signIn}>

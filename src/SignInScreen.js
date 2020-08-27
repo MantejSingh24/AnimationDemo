@@ -8,11 +8,16 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import {useLazyQuery} from '@apollo/react-hooks';
+import AsyncStorage from '@react-native-community/async-storage';
+import {ProgressBar} from '@react-native-community/progress-bar-android';
+import {CHECK_USER} from '../graphql/Queries';
 
 import {useTheme} from '@react-navigation/native';
 
@@ -25,8 +30,37 @@ const SignInScreen = ({navigation}) => {
     isValidUser: true,
     isValidPassword: true,
   });
-
+  const showToast = () => {
+    ToastAndroid.show('User not found', ToastAndroid.SHORT);
+  };
   const {colors} = useTheme();
+
+  const [getData] = useLazyQuery(CHECK_USER, {
+    onCompleted: (data) => {
+      if (data !== undefined) {
+        if (data.Users.length === 0) {
+          showToast();
+        } else {
+          let Username = data.Users[0].usename;
+          let Password = data.Users[0].password;
+
+          navigation.replace('homePage');
+          _saveEmail(Username, Password);
+        }
+      }
+    },
+  });
+  const _saveEmail = async (Username, Password) => {
+    try {
+      await AsyncStorage.setItem('username', Username);
+      await AsyncStorage.setItem('password', Password);
+      await AsyncStorage.getItem('username').then((username) =>
+        console.log(username),
+      );
+    } catch (error) {
+      // Error saveing data
+    }
+  };
 
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
@@ -76,7 +110,8 @@ const SignInScreen = ({navigation}) => {
         'Username or password field cannot be empty.',
         [{text: 'Okay'}],
       );
-      return;
+    } else {
+      getData({variables: {username: data.username, password: data.password}});
     }
   };
 
