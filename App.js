@@ -8,6 +8,7 @@ import Login from './src/login';
 import newLayout from './src/newLayout';
 import SignInScreen from './src/SignInScreen';
 import homePage from './src/homePage';
+import Loading from './src/Loading';
 
 import SignUpScreen from './src/SignUpScreen';
 
@@ -26,6 +27,8 @@ export default class App extends React.Component {
             screenOptions={{
               headerShown: false,
             }}>
+            <Stack.Screen name="Loading" component={Loading} />
+
             <Stack.Screen name="Home" component={Login} />
             <Stack.Screen name="newLayout" component={newLayout} />
             <Stack.Screen name="SignInScreen" component={SignInScreen} />
