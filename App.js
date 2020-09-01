@@ -7,7 +7,8 @@ import {HttpLink} from 'apollo-link-http';
 import Login from './src/login';
 import newLayout from './src/newLayout';
 import SignInScreen from './src/SignInScreen';
-import homePage from './src/homePage';
+import {homePage} from './src/homePage';
+import {SecondComponent} from './src/homePage';
 import Loading from './src/Loading';
 
 import SignUpScreen from './src/SignUpScreen';
@@ -33,7 +34,10 @@ export default class App extends React.Component {
             <Stack.Screen name="newLayout" component={newLayout} />
             <Stack.Screen name="SignInScreen" component={SignInScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="homePage" component={homePage} />
+            <Stack.Screen
+              name="homePage"
+              component={(homePage, SecondComponent)}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </ApolloProvider>
