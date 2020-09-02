@@ -1,19 +1,28 @@
-import React, {component} from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-sparse-arrays */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
   Button,
-  ScrollView,
   Image,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Animated, {Transition, Transitioning} from 'react-native-reanimated';
 import data from './data';
+import Tabb from './Components/Tabb';
+import Moreviews from './Moreview';
 
+const {width} = Dimensions.get('window');
 const images = [
   {id: 1, uri: require('../asserts/1.jpg')},
   {id: 2, uri: require('../asserts/2.jpg')},
@@ -29,10 +38,56 @@ const transition = (
     <Transition.Out type="fade" durationMs={200} />
   </Transition.Together>
 );
-
+const transtions = (
+  <Transition.Together>
+    <Transition.In
+      type="slide-right"
+      durationMs={2000}
+      interpolation="easeInOut"
+    />
+  </Transition.Together>
+);
 const Header_Height = 70 + StatusBar.currentHeight;
 
-function HomeScreen({navigation}) {
+// function Moreviews() {
+//   const ref = React.createRef();
+
+//   const selectTab = (index) => {
+//     setSelectedTab(index);
+//   };
+//   useEffect(() => ref.current.animateNextTransition());
+
+//   const [selectedTab, setSelectedTab] = React.useState(0);
+//   return (
+//     <Transitioning.View style={{flex: 1}} ref={ref} transition={transtions}>
+//       <View style={styles.tabContainer}>
+//         <View
+//           style={[
+//             {
+//               position: 'absolute',
+//               height: 70,
+//               width: (width - 30) / 2,
+//               backgroundColor: '#BADA55',
+//               left: selectedTab === 0 ? 0 : null,
+//               right: selectedTab === 1 ? 0 : null,
+//             },
+//           ]}
+//         />
+//         <TouchableOpacity onPress={() => selectTab(0)} style={{flex: 1}}>
+//           <Tabb
+//             icon="md-images-sharp"
+//             isSelected={selectedTab === 0 ? true : false}
+//           />
+//         </TouchableOpacity>
+//         <TouchableOpacity onPress={() => selectTab(1)} style={{flex: 1}}>
+//           <Tabb icon="md-grid" isSelected={selectedTab === 1 ? true : false} />
+//         </TouchableOpacity>
+//       </View>
+//     </Transitioning.View>
+//   );
+// }
+
+function HomeScreen() {
   const ScrollY = new Animated.Value(0);
   const diffClampScrollY = Animated.diffClamp(ScrollY, 0, Header_Height);
   const headerY = Animated.interpolate(diffClampScrollY, {
@@ -66,7 +121,7 @@ function HomeScreen({navigation}) {
           {nativeEvent: {contentOffset: {y: ScrollY}}},
         ])}>
         {images.map((image) => (
-          <View style={{height: 400, margin: 20}}>
+          <View key={image.id} style={{height: 400, margin: 20}}>
             <Image
               source={image.uri}
               key={image.id}
@@ -84,12 +139,13 @@ function HomeScreen({navigation}) {
         title="SignOut"
         onPress={() => {
           signOut();
-        }}></Button>
+        }}
+      />
     </View>
   );
 }
 
-function SettingsScreen({navigation}) {
+function SettingsScreen() {
   const [currentIndex, setCurrentIndex] = React.useState(null);
   const ref = React.useRef();
   return (
@@ -135,7 +191,7 @@ const signOut = async () => {
     console.log('Failed to clear the async storage.');
   }
 };
-const homePage = ({navigation}) => {
+const homePage = () => {
   return null;
 };
 export {homePage, SecondComponent};
@@ -158,10 +214,21 @@ function SecondComponent() {
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="More" component={Moreviews} />
     </Tab.Navigator>
   );
 }
 const styles = StyleSheet.create({
+  tabContainer: {
+    height: 70,
+    flexDirection: 'row',
+    marginTop: 20,
+    width: width - 30,
+    marginHorizontal: 15,
+    backgroundColor: 'lightgrey',
+    borderRadius: 70,
+    overflow: 'hidden',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
