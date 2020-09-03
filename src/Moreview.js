@@ -24,7 +24,7 @@ const transition = (
       interpolation="easeInOut"
     />
     <Transition.In type="fade" durationMs={2000} />
-    <Transition.Change interpolation="easeInOut" />
+    <Transition.Change />
     <Transition.Out type="fade" duration={2000} />
   </Transition.Together>
 );
