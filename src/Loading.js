@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {Text, View, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';

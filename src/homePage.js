@@ -19,8 +19,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Animated, {Transition, Transitioning} from 'react-native-reanimated';
 import data from './data';
-import Tabb from './Components/Tabb';
-import Moreviews from './Moreview';
+import Moreview from './Moreview';
 
 const {width} = Dimensions.get('window');
 const images = [
@@ -38,54 +37,8 @@ const transition = (
     <Transition.Out type="fade" durationMs={200} />
   </Transition.Together>
 );
-const transtions = (
-  <Transition.Together>
-    <Transition.In
-      type="slide-right"
-      durationMs={2000}
-      interpolation="easeInOut"
-    />
-  </Transition.Together>
-);
+
 const Header_Height = 70 + StatusBar.currentHeight;
-
-// function Moreviews() {
-//   const ref = React.createRef();
-
-//   const selectTab = (index) => {
-//     setSelectedTab(index);
-//   };
-//   useEffect(() => ref.current.animateNextTransition());
-
-//   const [selectedTab, setSelectedTab] = React.useState(0);
-//   return (
-//     <Transitioning.View style={{flex: 1}} ref={ref} transition={transtions}>
-//       <View style={styles.tabContainer}>
-//         <View
-//           style={[
-//             {
-//               position: 'absolute',
-//               height: 70,
-//               width: (width - 30) / 2,
-//               backgroundColor: '#BADA55',
-//               left: selectedTab === 0 ? 0 : null,
-//               right: selectedTab === 1 ? 0 : null,
-//             },
-//           ]}
-//         />
-//         <TouchableOpacity onPress={() => selectTab(0)} style={{flex: 1}}>
-//           <Tabb
-//             icon="md-images-sharp"
-//             isSelected={selectedTab === 0 ? true : false}
-//           />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => selectTab(1)} style={{flex: 1}}>
-//           <Tabb icon="md-grid" isSelected={selectedTab === 1 ? true : false} />
-//         </TouchableOpacity>
-//       </View>
-//     </Transitioning.View>
-//   );
-// }
 
 function HomeScreen() {
   const ScrollY = new Animated.Value(0);
@@ -214,7 +167,7 @@ function SecondComponent() {
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="More" component={Moreviews} />
+      <Tab.Screen name="More" component={Moreview} />
     </Tab.Navigator>
   );
 }

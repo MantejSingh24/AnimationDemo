@@ -12,6 +12,7 @@ import {SecondComponent} from './src/homePage';
 import Loading from './src/Loading';
 
 import SignUpScreen from './src/SignUpScreen';
+import Moreview from './src/Moreview';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ export default class App extends React.Component {
               name="homePage"
               component={(homePage, SecondComponent)}
             />
+            <Stack.Screen name="Moreview" component={Moreview} />
           </Stack.Navigator>
         </NavigationContainer>
       </ApolloProvider>
